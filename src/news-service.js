@@ -1,5 +1,9 @@
 import axios from "axios";
 
+//const API_KEY = '22718353-e7d99cd9459f2a7dc2bda49f9';
+const API_KEY = '22578117-98ddcf36fbc3d0da8c48aeee6&q';
+const BASE_URL = 'https://pixabay.com/api';
+
 export default class NewsApiService {
     constructor (){
         this.searchQuery = '';
@@ -9,7 +13,7 @@ export default class NewsApiService {
     }
 
     async fetchArticles() {
-        const url =`https://pixabay.com/api/?key=22578117-98ddcf36fbc3d0da8c48aeee6&q=${this.searchQuery}&image_type=photo&orientation=horizontal&safesearch=true&page=${this.page}&per_page=40`;
+        const url =`${BASE_URL}/?key=${API_KEY}=${this.searchQuery}&image_type=photo&orientation=horizontal&safesearch=true&page=${this.page}&per_page=40`;
         const response = await axios.get(url);
             this.page +=1;
             return response.data;
