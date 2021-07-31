@@ -1,36 +1,24 @@
 import './css/styles.css';
-import NewsApiService from './news-service';
+import NewsApiService from './js/news-service';
 import Notiflix from 'notiflix';
 import cards from './templates/cards.hbs';
 import SimpleLightbox from "simplelightbox";
- 
+import getRefs from './js/getRefs'; 
 import 'simplelightbox/src/simple-lightbox.scss';
 
 const gallery = new SimpleLightbox('.photo-card a');
-
-const refs = {
-    searchForm: document.querySelector('.search-form'),
-    galleryCards: document.querySelector('.gallery'),
-    searchBtn: document.querySelector('.searchBtn'),
-    loadMoreBtn: document.querySelector('.load-more'),
-}
-
-
 const newsApiService = new NewsApiService();
-
+const refs = getRefs();
 
 refs.searchForm.addEventListener('submit', onSearch)
 refs.loadMoreBtn.addEventListener('click', onLoad)
-
 refs.loadMoreBtn.classList.add('is-hidden');
-
 
 async function onSearch(e){
     e.preventDefault();
     newsApiService.resetPage();
     newsApiService.query = e.currentTarget.elements.searchQuery.value;
 
-    
     try {
         const result = await newsApiService.fetchArticles();
         
@@ -38,19 +26,20 @@ async function onSearch(e){
             clearCardsCounteiner();
             refs.loadMoreBtn.classList.add('is-hidden');
             Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
-        } else {  
+        } 
+        
+        else {  
             refs.loadMoreBtn.classList.remove('is-hidden');
-
             clearCardsCounteiner();
             Notiflix.Notify.success(`"Hooray! We found ${result.totalHits} images."`);
             appendCardsMarkup(result.hits);
-             gallery.refresh(); 
-}
+            gallery.refresh(); 
+            }
+
    } catch (error) {
        console.log(error);
    }
 }
-
 
 async function onLoad (){
     try { 
@@ -67,7 +56,7 @@ async function onLoad (){
             refs.loadMoreBtn.classList.add('is-hidden');
         } 
 
-    }
+        }
         catch (error){
             console.log(error)
         } 
