@@ -17,7 +17,6 @@ export default class NewsApiService {
         const response = await axios.get(url);
 
         this.incrementPage();
-        this.page +=1;
         return response.data;
         }
 
