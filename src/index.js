@@ -65,6 +65,11 @@ async function onLoad (){
 
 function appendCardsMarkup(data){
  refs.galleryCards.insertAdjacentHTML('beforeend', cards(data));
+
+ document.body.scrollIntoView({
+    behavior: 'smooth',
+    block: 'end',
+  });
 };
 
 function clearCardsCounteiner () {
